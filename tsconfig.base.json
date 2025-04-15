@@ -16,8 +16,4 @@
     "noImplicitReturns": true,
     "baseUrl": ".",
   },
-  "references": [
-    { "path": "tsconfig.node.json" },
-    { "path": "tsconfig.web.json" },
-  ],
 }
