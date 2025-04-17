@@ -1,35 +1,35 @@
-import Versions from "./components/Versions";
-import electronLogo from "./assets/electron.svg";
+import { AppShell, Burger, Group, Skeleton } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 
-function App(): JSX.Element {
-  const ipcHandle = (): void => window.api.ping();
+import Versions from "./components/Versions";
+
+export default function App() {
+  const [opened, { toggle }] = useDisclosure();
 
   return (
-    <>
-      <img alt="logo" className="logo" src={electronLogo} />
-      <div className="creator">Powered by electron-vite</div>
-      <div className="text">
-        Build an Electron app with <span className="react">React</span>
-        &nbsp;and <span className="ts">TypeScript</span>
-      </div>
-      <p className="tip">
-        Please try pressing <code>F12</code> to open the devTool
-      </p>
-      <div className="actions">
-        <div className="action">
-          <a href="https://electron-vite.org/" target="_blank" rel="noreferrer">
-            Documentation
-          </a>
-        </div>
-        <div className="action">
-          <a target="_blank" rel="noreferrer" onClick={ipcHandle}>
-            Send IPC
-          </a>
-        </div>
-      </div>
-      <Versions></Versions>
-    </>
+    <AppShell
+      header={{ height: 60 }}
+      navbar={{ width: 300, breakpoint: "sm", collapsed: { mobile: !opened } }}
+      padding="md"
+    >
+      <AppShell.Header>
+        <Group h="100%" px="md">
+          <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
+          Armchair Gold
+        </Group>
+      </AppShell.Header>
+      <AppShell.Navbar p="md">
+        Navbar
+        {Array(15)
+          .fill(0)
+          .map((_, index) => (
+            <Skeleton key={index} h={28} mt="sm" animate={false} />
+          ))}
+      </AppShell.Navbar>
+      <AppShell.Main>
+        Main
+        <Versions />
+      </AppShell.Main>
+    </AppShell>
   );
 }
-
-export default App;
