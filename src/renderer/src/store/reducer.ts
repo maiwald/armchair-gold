@@ -1,23 +1,62 @@
-import type { AppState } from "./types";
+import type { AppState, Location, Character } from "./types";
 import { type AppAction, ActionType } from "./actions";
+import { generateEntityId } from "@/utils/entity";
 
 export const initialState: AppState = {
-  user: null,
-  posts: [],
+  characters: {},
+  locations: {},
 } as const;
 
-const reducer = (state: AppState = initialState, action: AppAction): AppState => {
+const reducer = (
+  state: AppState = initialState,
+  action: AppAction,
+): AppState => {
   switch (action.type) {
-    case ActionType.SET_USER:
+    case ActionType.CREATE_CHARACTER: {
+      let id = generateEntityId("C");
+      while (Object.hasOwnProperty.call(state.characters, id)) {
+        id = generateEntityId("C");
+      }
+
+      const newCharacter: Character = {
+        id: id,
+        name: action.payload.name,
+      };
+
       return {
         ...state,
-        user: action.payload,
+        characters: {
+          ...state.characters,
+          [newCharacter.id]: newCharacter,
+        },
       };
-    case ActionType.ADD_POST:
+    }
+
+    case ActionType.CREATE_LOCATION: {
+      let id = generateEntityId("L");
+      while (Object.hasOwnProperty.call(state.locations, id)) {
+        id = generateEntityId("L");
+      }
+
+      const newLocation: Location = {
+        id: generateEntityId("L"),
+        name: action.payload.name,
+        width: 20,
+        height: 20,
+        foreground: [],
+        background: [],
+        collision: new Map(),
+      };
+
       return {
         ...state,
-        posts: [...state.posts, action.payload],
+        locations: {
+          ...state.locations,
+          [newLocation.id]: newLocation,
+        },
       };
+    }
+
     default:
       return state;
   }

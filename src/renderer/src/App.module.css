@@ -1,0 +1,17 @@
+.app {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  width: 100vw;
+}
+
+.navbar {
+  width: 300px;
+  border-right: 1px solid var(--mantine-color-gray-2);
+  overflow-y: auto;
+}
+
+.main {
+  flex-grow: 1;
+  padding: var(--mantine-spacing-md);
+}

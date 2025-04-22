@@ -18,7 +18,11 @@ const StoreContext = createContext<StoreContextType>({
 export const StoreProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  return <StoreContext.Provider value={{ state, dispatch }}>{children}</StoreContext.Provider>;
+  return (
+    <StoreContext.Provider value={{ state, dispatch }}>
+      {children}
+    </StoreContext.Provider>
+  );
 };
 
 type Selector<T> = (state: AppState) => T;

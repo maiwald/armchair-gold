@@ -1,17 +1,39 @@
-type EntityId<T extends string> = `${T}_${string}`;
+export type EntityId<T extends string> = `${T}-${string}`;
 
-export type User = {
-  id: EntityId<"U">;
+type EntityMap<T extends { id: string }> = Record<T["id"], T>;
+
+export type AppState = {
+  characters: EntityMap<Character>;
+  locations: EntityMap<Location>;
+};
+
+export type Point = {
+  x: number;
+  y: number;
+};
+
+export type Character = {
+  id: EntityId<"C">;
   name: string;
 };
 
-export type Post = {
-  id: EntityId<"P">;
-  title: string;
-  content: string;
+export type Sprite = {
+  image: string;
+  offset: Point;
 };
 
-export type AppState = {
-  user: User | null;
-  posts: Post[];
+export type SpriteLayer = {
+  name: string;
+  zIndex: number;
+  sprites: Map<Point, Sprite>;
+};
+
+export type Location = {
+  id: EntityId<"L">;
+  name: string;
+  width: number;
+  height: number;
+  foreground: SpriteLayer[];
+  background: SpriteLayer[];
+  collision: Map<Point, boolean>;
 };

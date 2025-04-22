@@ -1,22 +1,17 @@
-import { AppShell, Skeleton } from "@mantine/core";
-
-import Versions from "./components/Versions";
+import Navbar from "@/components/Navbar";
+import Versions from "@/components/Versions";
+import classes from "./App.module.css";
 
 export default function App(): JSX.Element {
   return (
-    <AppShell navbar={{ width: 300, breakpoint: "xs" }} padding="md">
-      <AppShell.Navbar p="md">
-        Navbar
-        {Array(15)
-          .fill(0)
-          .map((_, index) => (
-            <Skeleton key={index} h={28} mt="sm" animate={false} />
-          ))}
-      </AppShell.Navbar>
-      <AppShell.Main>
+    <div className={classes.app}>
+      <div className={classes.navbar}>
+        <Navbar />
+      </div>
+      <div className={classes.main}>
         Main
         <Versions />
-      </AppShell.Main>
-    </AppShell>
+      </div>
+    </div>
   );
 }
