@@ -6,12 +6,32 @@
 }
 
 .navbar {
-  width: 300px;
   border-right: 1px solid var(--mantine-color-gray-2);
   overflow-y: auto;
+  height: 100%;
 }
 
 .main {
-  flex-grow: 1;
   padding: var(--mantine-spacing-md);
+  height: 100%;
+  overflow-y: auto;
+}
+
+.resizeHandle {
+  background: var(--mantine-color-gray-3);
+  transition: background-color 0.2s ease;
+}
+
+.resizeHandle:hover {
+  background: var(--mantine-color-gray-4);
+}
+
+.resizeHandle[data-panel-group-direction="horizontal"] {
+  width: 2px;
+  cursor: col-resize;
+}
+
+.resizeHandle[data-panel-group-direction="vertical"] {
+  height: 2px;
+  cursor: row-resize;
 }
