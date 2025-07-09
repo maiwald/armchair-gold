@@ -29,6 +29,7 @@
     "@mantine/modals": "^7.17.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-resizable-panels": "^3.0.3",
     "short-unique-id": "^5.2.2"
   },
   "devDependencies": {
