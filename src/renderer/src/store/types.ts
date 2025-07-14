@@ -5,6 +5,7 @@ type EntityMap<T extends { id: string }> = Record<T["id"], T>;
 export type AppState = {
   characters: EntityMap<Character>;
   locations: EntityMap<Location>;
+  selectedLocationId: string | null;
 };
 
 export type Point = {
@@ -33,6 +34,7 @@ export type Location = {
   name: string;
   width: number;
   height: number;
+  position: Point;
   foreground: SpriteLayer[];
   background: SpriteLayer[];
   collision: Map<Point, boolean>;
