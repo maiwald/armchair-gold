@@ -40,7 +40,7 @@ const reducer = (
       }
 
       const newLocation: Location = {
-        id: generateEntityId("L"),
+        id: id,
         name: action.payload.name,
         width: 20,
         height: 20,
