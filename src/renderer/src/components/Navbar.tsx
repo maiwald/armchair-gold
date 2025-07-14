@@ -26,9 +26,10 @@ type Resource = {
 };
 
 export default function Navbar(): JSX.Element {
-  const [{ characters, locations }, dispatch] = useStore((state) => ({
+  const [{ characters, locations, selectedLocationId }, dispatch] = useStore((state) => ({
     characters: Object.values(state.characters),
     locations: Object.values(state.locations),
+    selectedLocationId: state.selectedLocationId,
   }));
 
   const resources = [
@@ -55,7 +56,11 @@ export default function Navbar(): JSX.Element {
       />
 
       {resources.map((resource) => (
-        <ResourceSection key={resource.name} resource={resource} />
+        <ResourceSection 
+          key={resource.name} 
+          resource={resource} 
+          selectedId={resource.name === "Locations" ? selectedLocationId : null}
+        />
       ))}
     </nav>
   );
@@ -63,9 +68,10 @@ export default function Navbar(): JSX.Element {
 
 type ResourceSectionProps = {
   resource: Resource;
+  selectedId?: string | null;
 };
 
-function ResourceSection({ resource }: ResourceSectionProps): JSX.Element {
+function ResourceSection({ resource, selectedId }: ResourceSectionProps): JSX.Element {
   const [isOpened, { toggle }] = useDisclosure(false);
 
   return (
@@ -78,7 +84,11 @@ function ResourceSection({ resource }: ResourceSectionProps): JSX.Element {
       />
 
       <Collapse in={isOpened}>
-        <ResourceSectionList items={resource.items} />
+        <ResourceSectionList 
+          items={resource.items} 
+          resourceName={resource.name}
+          selectedId={selectedId ?? null}
+        />
       </Collapse>
     </>
   );
@@ -121,9 +131,19 @@ function ResourceSectionHeader({
 
 type ResourceSectionListProps = {
   items: Array<{ id: string; name: string }>;
+  resourceName: string;
+  selectedId?: string | null;
 };
 
-function ResourceSectionList({ items }: ResourceSectionListProps): JSX.Element {
+function ResourceSectionList({ items, resourceName, selectedId }: ResourceSectionListProps): JSX.Element {
+  const [, dispatch] = useStore((state) => state);
+
+  const handleItemClick = (item: { id: string; name: string }) => {
+    if (resourceName === "Locations") {
+      dispatch(actions.selectLocation(item.id));
+    }
+  };
+
   return items.length === 0 ? (
     <Center p="sm" fz="sm" c="dimmed">
       No items
@@ -132,7 +152,13 @@ function ResourceSectionList({ items }: ResourceSectionListProps): JSX.Element {
     <div className={classes.sectionList!}>
       {items.map((item) => (
         <div key={item.id} className={classes.item!}>
-          <UnstyledButton className={classes.itemButton!} key={item.id}>
+          <UnstyledButton 
+            className={classes.itemButton!} 
+            onClick={() => handleItemClick(item)}
+            style={{ 
+              backgroundColor: selectedId === item.id ? 'var(--mantine-color-blue-light)' : undefined 
+            }}
+          >
             <Code fz="xxs">{item.id}</Code>
             {item.name}
           </UnstyledButton>

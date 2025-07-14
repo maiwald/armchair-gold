@@ -5,6 +5,7 @@ import { generateEntityId } from "@/utils/entity";
 export const initialState: AppState = {
   characters: {},
   locations: {},
+  selectedLocationId: null,
 } as const;
 
 const reducer = (
@@ -43,6 +44,7 @@ const reducer = (
         name: action.payload.name,
         width: 20,
         height: 20,
+        position: { x: 0, y: 0 },
         foreground: [],
         background: [],
         collision: new Map(),
@@ -54,6 +56,33 @@ const reducer = (
           ...state.locations,
           [newLocation.id]: newLocation,
         },
+      };
+    }
+
+    case ActionType.UPDATE_LOCATION: {
+      const { id, updates } = action.payload;
+      const existingLocation = state.locations[id];
+      
+      if (!existingLocation) {
+        return state;
+      }
+
+      return {
+        ...state,
+        locations: {
+          ...state.locations,
+          [id]: {
+            ...existingLocation,
+            ...updates,
+          },
+        },
+      };
+    }
+
+    case ActionType.SELECT_LOCATION: {
+      return {
+        ...state,
+        selectedLocationId: action.payload.id,
       };
     }
 
